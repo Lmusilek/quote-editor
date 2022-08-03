@@ -1,4 +1,4 @@
-<main class="container">
+<div class="container">
   <div class="header">
     <h1>Quotes</h1>
     <%= link_to "New quote",
@@ -8,5 +8,8 @@
   </div>
 
   <%= turbo_frame_tag Quote.new %>
-  <%= render @quotes %>
-</main>
+
+  <%= turbo_frame_tag "quotes" do %>
+    <%= render @quotes %>
+  <% end %>
+</div>
