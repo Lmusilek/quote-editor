@@ -39,6 +39,7 @@ class QuotesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to quotes_path, notice: "Quote was successfully destroyed." }
       format.turbo_stream
+    end
   end
 
   private
