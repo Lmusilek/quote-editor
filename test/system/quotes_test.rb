@@ -2,6 +2,7 @@ require "application_system_test_case"
 
 class QuotesTest < ApplicationSystemTestCase
   setup do
+    login_as users(:accountant)
     @quote = Quote.ordered.first
   end
 
@@ -20,7 +21,7 @@ class QuotesTest < ApplicationSystemTestCase
     fill_in "Name", with: "Capybara quote"
 
     assert_selector "h1", text: "Quotes"
-    click_on "Create quote"
+    click_on "Create Quote"
 
     assert_selector "h1", text: "Quotes"
     assert_text "Capybara quote"
@@ -31,13 +32,13 @@ class QuotesTest < ApplicationSystemTestCase
     assert_selector "h1", text: "Quotes"
 
     click_on "Edit", match: :first
-    fill_in "Name", with: "Updated quote"
+    fill_in "Name", with: "Updated Quote"
 
     assert_selector "h1", text: "Quotes"
-    click_on "Update quote"
+    click_on "Update Quote"
 
     assert_selector "h1", text: "Quotes"
-    assert_text "Updated quote"
+    assert_text "Updated Quote"
   end
 
   test "Destroying a quote" do
