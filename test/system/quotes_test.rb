@@ -1,51 +1,50 @@
 require "application_system_test_case"
 
-class QuotesTest < ApplicationSystemTestCase
+class LineItemDatesTest < ApplicationSystemTestCase
   setup do
     login_as users(:accountant)
-    @quote = Quote.ordered.first
+
+    @quote          = quotes(:first)
+    @line_item_date = line_item_dates(:today)
+
+    visit quote_path(@quote)
   end
 
-  test "Showing a quote" do
-    visit quotes_path
-    click_link @quote.name
+  test "Creating a new line item date" do
+    assert_selector "h1", text: "First quote"
 
-    assert_selector "h1", text: @quote.name
+    click_on "New date"
+    assert_selector "h1", text: "First quote"
+    fill_in "Date", with: Date.current + 1.day
+
+    click_on "Create date"
+    assert_text I18n.l(Date.current + 1.day, format: :long)
   end
 
-  test "Creating a new quote" do
-    visit quotes_path
-    assert_selector "h1", text: "Quotes"
+  test "Updating a line item date" do
+    assert_selector "h1", text: "First quote"
 
-    click_on "New quote"
-    fill_in "Name", with: "Capybara quote"
+    within id: dom_id(@line_item_date) do
+      click_on "Edit"
+    end
 
-    assert_selector "h1", text: "Quotes"
-    click_on "Create Quote"
+    assert_selector "h1", text: "First quote"
 
-    assert_selector "h1", text: "Quotes"
-    assert_text "Capybara quote"
+    fill_in "Date", with: Date.current + 1.day
+    click_on "Update date"
+
+    assert_text I18n.l(Date.current + 1.day, format: :long)
   end
 
-  test "Updating a quote" do
-    visit quotes_path
-    assert_selector "h1", text: "Quotes"
+  test "Destroying a line item date" do
+    assert_text I18n.l(Date.current, format: :long)
 
-    click_on "Edit", match: :first
-    fill_in "Name", with: "Updated Quote"
+    accept_confirm do
+      within id: dom_id(@line_item_date) do
+        click_on "Delete"
+      end
+    end
 
-    assert_selector "h1", text: "Quotes"
-    click_on "Update Quote"
-
-    assert_selector "h1", text: "Quotes"
-    assert_text "Updated Quote"
-  end
-
-  test "Destroying a quote" do
-    visit quotes_path
-    assert_text @quote.name
-
-    click_on "Delete", match: :first
-    assert_no_text @quote.name
+    assert_no_text I18n.l(Date.current, format: :long)
   end
 end
