@@ -1,7 +1,6 @@
 <%= turbo_frame_tag line_item_date do %>
   <div class="line-item-date">
     <div class="line-item-date__header">
-      <!-- All the previous code -->
     </div>
     <div class="line-item-date__body">
       <div class="line-item line-item--header">
@@ -11,7 +10,9 @@
         <div class="line-item__actions"></div>
       </div>
 
-      <%= render line_item_date.line_items, quote: quote, line_item_date: line_item_date %>
+<%= turbo_frame_tag nested_dom_id(line_item_date, "line_items") do %>
+  <%= render line_item_date.line_items, quote: quote, line_item_date: line_item_date %>
+<% end %>
 
       <div class="line-item-date__footer">
         <%= link_to "Add item",
