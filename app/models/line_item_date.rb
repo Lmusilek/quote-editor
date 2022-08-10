@@ -1,8 +1,9 @@
 class LineItemDate < ApplicationRecord
-  belongs_to :quote
-
   validates :date, presence: true, uniqueness: { scope: :quote_id }
 
+  belongs_to :quote
+  has_many :line_items, dependent: :destroy
+  
   scope :ordered, -> { order(date: :asc) }
 
   def previous_date
