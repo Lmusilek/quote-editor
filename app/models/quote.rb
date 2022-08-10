@@ -1,6 +1,7 @@
 class Quote < ApplicationRecord
   validates :name, presence: true
 
+  has_many :line_item_dates, dependent: :destroy
   belongs_to :company
 
   scope :ordered, -> { order(id: :desc) }
