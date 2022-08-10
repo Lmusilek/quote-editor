@@ -5,5 +5,6 @@ class Quote < ApplicationRecord
 
   scope :ordered, -> { order(id: :desc) }
 
-  after_create_commit -> { broadcast_prepend_to [ quote.company, "quotes" ] }
+  # after_create_commit -> { broadcast_prepend_to "quotes" }
+  broadcasts_to ->(quote) { [quote.company, "quotes"] }, inserts_by: :prepend
 end
