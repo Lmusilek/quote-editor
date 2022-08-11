@@ -1,6 +1,7 @@
 require "test_helper"
 
 class LineItemDateTest < ActiveSupport::TestCase
+  
   test "#previous_date returns the quote's previous date when it exitsts" do
     assert_equal line_item_dates(:today), line_item_dates(:next_week).previous_date
   end
