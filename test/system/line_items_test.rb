@@ -57,11 +57,11 @@ class LineItemSystemTest < ApplicationSystemTestCase
       within id: dom_id(@line_item_date, :edit) do
         click_on "Delete"
       end
-
-    assert_text number_to_currency(@quote.total_price)
     end
-  
+
     assert_no_text I18n.l(Date.current, format: :long)
+    
+    assert_text number_to_currency(@quote.total_price)
   end
 
   test "Destroying a line item" do

@@ -1,50 +1,51 @@
 require "application_system_test_case"
 
-class LineItemDatesTest < ApplicationSystemTestCase
+class QuotesTest < ApplicationSystemTestCase
   setup do
     login_as users(:accountant)
-
-    @quote          = quotes(:first)
-    @line_item_date = line_item_dates(:today)
-
-    visit quote_path(@quote)
+    @quote = Quote.ordered.first
   end
 
-  test "Creating a new line item date" do
-    assert_selector "h1", text: "First quote"
+  test "Showing a quote" do
+    visit quotes_path
+    click_link @quote.name
 
-    click_on "New date"
-    assert_selector "h1", text: "First quote"
-    fill_in "Date", with: Date.current + 1.day
-
-    click_on "Create date"
-    assert_text I18n.l(Date.current + 1.day, format: :long)
+    assert_selector "h1", text: @quote.name
   end
 
-  test "Updating a line item date" do
-    assert_selector "h1", text: "First quote"
+  test "Creating a new quote" do
+    visit quotes_path
+    assert_selector "h1", text: "Quotes"
 
-    within id: dom_id(@line_item_date) do
-      click_on "Edit"
-    end
+    click_on "New quote"
+    fill_in "Name", with: "Capybara quote"
 
-    assert_selector "h1", text: "First quote"
+    assert_selector "h1", text: "Quotes"
+    click_on "Create quote"
 
-    fill_in "Date", with: Date.current + 1.day
-    click_on "Update date"
-
-    assert_text I18n.l(Date.current + 1.day, format: :long)
+    assert_selector "h1", text: "Quotes"
+    assert_text "Capybara quote"
   end
 
-  test "Destroying a line item date" do
-    assert_text I18n.l(Date.current, format: :long)
+  test "Updating a quote" do
+    visit quotes_path
+    assert_selector "h1", text: "Quotes"
 
-    accept_confirm do
-      within id: dom_id(@line_item_date) do
-        click_on "Delete"
-      end
-    end
+    click_on "Edit", match: :first
+    fill_in "Name", with: "Updated quote"
 
-    assert_no_text I18n.l(Date.current, format: :long)
+    assert_selector "h1", text: "Quotes"
+    click_on "Update quote"
+
+    assert_selector "h1", text: "Quotes"
+    assert_text "Updated quote"
+  end
+
+  test "Destroying a quote" do
+    visit quotes_path
+    assert_text @quote.name
+
+    click_on "Delete", match: :first
+    assert_no_text @quote.name
   end
 end
