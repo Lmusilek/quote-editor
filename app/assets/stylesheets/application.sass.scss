@@ -8,6 +8,9 @@
 @import "config/reset";
 @import "config/animations";
 
+// Utilities
+@import "utilities/margins";
+
 // Components
 @import "components/btn";
 @import "components/error_message";
@@ -20,6 +23,7 @@
 @import "components/empty_state";
 @import "components/line_item_date";
 @import "components/line_item";
+@import "components/quote_total";
 
 // Layouts
 @import "layouts/container";
